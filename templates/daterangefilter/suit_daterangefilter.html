@@ -1,0 +1,67 @@
+{% load i18n %}
+{% get_current_language as LANGUAGE_CODE %}
+<script src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/moment/locale/{{ LANGUAGE_CODE }}.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<style>
+.daterangepicker .drp-calendar { max-width: inherit }
+</style>
+<input type="text" class="form-control" id="drp-{{ field_name }}" data-name="{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" placeholder="{{ title|capfirst }}" />
+<script>
+django.jQuery('document').ready(function () {
+    moment.locale('{{ LANGUAGE_CODE }}');
+    $('input#drp-{{ field_name }}').daterangepicker({
+        {% include "daterangefilter/ranges.html" %}
+        opens: 'center',
+        autoApply: true,
+        autoUpdateInput: false,
+        locale: {
+            format: 'YYYY.MM.DD',
+            monthNames: moment.months(),
+            customRangeLabel: '{% trans "Custom Range" %}'
+        }
+    });
+    $('input#drp-{{ field_name }}').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY.MM.DD') + ' - ' + picker.endDate.format('YYYY.MM.DD'));
+        $(this).trigger('change');
+    });
+    $('input#drp-{{ field_name }}').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+    $('input#drp-{{ field_name }}').on('change', function(ev) {
+        var $field = $(this);
+        var field_name = $field.data('name');
+        var hidden_gte_id = 'drp-' + field_name + '-gte';
+        var hidden_lte_id = 'drp-' + field_name + '-lte';
+        var $hidden_gte = $('#' + hidden_gte_id);
+        var $hidden_lte = $('#' + hidden_lte_id);
+        var range = $field.val();
+        if (range !== "") {
+            var vals = range.split(/\s?-\s?/);
+            if (vals.length == 2) {
+                if (!$hidden_gte.length) {
+                    $hidden_gte = $('<input/>').attr('type', 'hidden').attr('id', hidden_gte_id);
+                    $field.after($hidden_gte);
+                }
+                if (!$hidden_lte.length) {
+                    $hidden_lte = $('<input/>').attr('type', 'hidden').attr('id', hidden_lte_id);
+                    $field.after($hidden_lte);
+                }
+                $hidden_gte.attr('name', field_name + '__gte');
+                $hidden_gte.val(vals[0].replace(/\./g, '-'));
+                $hidden_lte.attr('name', field_name + '__lte');
+                $hidden_lte.val(vals[1].replace(/\./g, '-'));
+                $field.addClass('active');
+                return;
+            }
+        }
+        if ($hidden_gte.length)
+            $hidden_gte.removeAttr('name');
+        if ($hidden_lte.length)
+            $hidden_lte.removeAttr('name');
+        $field.removeClass('active');
+    });
+    $('input#drp-{{ field_name }}').trigger('change');
+});
+</script>

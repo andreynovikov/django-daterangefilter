@@ -1,0 +1,30 @@
+{% load i18n %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+<style>
+.daterangepicker .drp-calendar { max-width: inherit }
+</style>
+<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
+<div>
+<input type="text" class="form-control" id="drp-{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" />
+</div>
+<script>
+django.jQuery('document').ready(function () {
+    $('input#drp-{{ field_name }}').daterangepicker({
+        opens: 'center',
+        autoApply: true,
+        autoUpdateInput: false,
+        locale: { format: 'YYYY.MM.DD' }
+    });
+    $('input#drp-{{ field_name }}').on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('YYYY.MM.DD') + ' - ' + picker.endDate.format('YYYY.MM.DD'));
+        window.location = window.location.pathname + '{{ choices.0.query_string }}' +
+                          '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') +
+                          '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD')
+    });
+    $('input#drp-{{ field_name }}').on('cancel.daterangepicker', function(ev, picker) {
+        $(this).val('');
+    });
+});
+</script>

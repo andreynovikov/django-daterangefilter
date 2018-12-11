@@ -1,0 +1,10 @@
+{% load i18n %}
+        ranges: {
+            '{% trans "Today" %}': [moment(), moment()],
+            '{% trans "Yesterday" %}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+            '{% trans "Tomorrow" %}': [moment().add(1, 'days'), moment().add(1, 'days')],
+            '{% trans "Day after tomorrow" %}': [moment().add(2, 'days'), moment().add(2, 'days')],
+            '{% trans "This week" %}': [moment().startOf('week'), moment().endOf('week')],
+            '{% trans "Next week" %}': [moment().startOf('week').add(7, 'days'), moment().endOf('week').add(7, 'days')],
+            '{% trans "In future" %}': [moment(), moment().add(25, 'years')]
+        },

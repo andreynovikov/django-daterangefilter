@@ -30,3 +30,6 @@ install:
 branches:
   only:
     - master
+
+script:
+  - echo "TODO"

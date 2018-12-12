@@ -6,6 +6,7 @@ from django.conf import settings
 
 class DateRangeFilter(admin.FieldListFilter):
     def __init__(self, field, request, params, model, model_admin, field_path):
+        self.field_name = field_path
         self.lookup_kwarg_gte = '{}__gte'.format(field_path)
         self.lookup_kwarg_lte = '{}__lte'.format(field_path)
         self.lookup_gte = params.get(self.lookup_kwarg_gte)
@@ -29,6 +30,7 @@ class DateRangeFilter(admin.FieldListFilter):
 
     def choices(self, changelist):
         yield {
+            'field_name': self.field_path,
             'value': self.lookup_val,
             'query_string': changelist.get_query_string(remove=self._get_expected_fields())
         }

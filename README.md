@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/andreynovikov/django-daterangefilter.svg?branch=master)](https://travis-ci.org/andreynovikov/django-daterangefilter)
 [![GitHub release](https://img.shields.io/github/release/andreynovikov/django-daterangefilter.svg)](https://github.com/andreynovikov/django-daterangefilter/releases/latest)
+[![PyPI release](https://img.shields.io/pypi/v/django-daterangefilter.svg)](https://pypi.org/project/django-daterangefilter/)
+[![Python version](https://img.shields.io/pypi/pyversions/django-daterangefilter.svg)](https://pypi.org/project/django-daterangefilter/)
 [![GitHub issues](https://img.shields.io/github/issues/andreynovikov/django-daterangefilter.svg)](https://github.com/andreynovikov/django-daterangefilter/issues)
 [![GitHub license](https://img.shields.io/github/license/andreynovikov/django-daterangefilter.svg)](LICENSE)
 
@@ -14,10 +16,10 @@ Application adds three Django admin list filters: ```DateRangeFilter```, ```Past
 
 ## Installation
 
-Clone repo into Django project root:
+Install ```django-daterangefilter``` using pip:
 
 ```
-git clone https://github.com/andreynovikov/django-daterangefilter.git daterangefilter
+pip install django-daterangefilter
 ```
 
 Add ```daterangefilter``` to ```INSTALLED_APPS```. Example:

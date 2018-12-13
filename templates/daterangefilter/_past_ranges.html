@@ -6,5 +6,5 @@
             '{% trans "Day before yesterday" %}': [moment().subtract(2, 'days'), moment().subtract(2, 'days')],
             '{% trans "This week" %}': [moment().startOf('week'), moment().endOf('week')],
             '{% trans "Previous week" %}': [moment().startOf('week').subtract(7, 'days'), moment().endOf('week').subtract(7, 'days')],
-            '{% trans "In the past" %}': [moment(), moment().subtract(25, 'years')]
+            '{% trans "In the past" %}': [moment().subtract(25, 'years'), moment()]
         },

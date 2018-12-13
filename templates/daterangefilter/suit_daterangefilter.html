@@ -6,11 +6,15 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
 .daterangepicker .drp-calendar { max-width: inherit }
+.daterangepicker .ranges li { white-space: nowrap }
 </style>
-<input type="text" class="form-control" id="drp-{{ field_name }}" data-name="{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" placeholder="{{ title|capfirst }}" />
+<input type="text" class="form-control" id="drp-{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" placeholder="{{ title|capfirst }}" />
 <script>
 django.jQuery('document').ready(function () {
-    moment.locale('{{ LANGUAGE_CODE }}');
+    if (!window.drpMomentInitialized) {
+        moment.locale('{{ LANGUAGE_CODE }}');
+        window.drpMomentInitialized = true;
+    }
     $('input#drp-{{ field_name }}').daterangepicker({
         {% include "daterangefilter/ranges.html" %}
         opens: 'center',
@@ -31,9 +35,8 @@ django.jQuery('document').ready(function () {
     });
     $('input#drp-{{ field_name }}').on('change', function(ev) {
         var $field = $(this);
-        var field_name = $field.data('name');
-        var hidden_gte_id = 'drp-' + field_name + '-gte';
-        var hidden_lte_id = 'drp-' + field_name + '-lte';
+        var hidden_gte_id = 'drp-{{ field_name }}-gte';
+        var hidden_lte_id = 'drp-{{ field_name }}-lte';
         var $hidden_gte = $('#' + hidden_gte_id);
         var $hidden_lte = $('#' + hidden_lte_id);
         var range = $field.val();
@@ -48,9 +51,9 @@ django.jQuery('document').ready(function () {
                     $hidden_lte = $('<input/>').attr('type', 'hidden').attr('id', hidden_lte_id);
                     $field.after($hidden_lte);
                 }
-                $hidden_gte.attr('name', field_name + '__gte');
+                $hidden_gte.attr('name', '{{ field_name }}__gte');
                 $hidden_gte.val(vals[0].replace(/\./g, '-'));
-                $hidden_lte.attr('name', field_name + '__lte');
+                $hidden_lte.attr('name', '{{ field_name }}__lte');
                 $hidden_lte.val(vals[1].replace(/\./g, '-'));
                 $field.addClass('active');
                 return;

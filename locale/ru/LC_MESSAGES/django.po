@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-11 12:56+0300\n"
+"POT-Creation-Date: 2018-12-13 14:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,39 +24,56 @@ msgstr ""
 msgid "Date Range Filter"
 msgstr "Фильтр диапазона дат"
 
-#: templates/daterangefilter/daterangefilter.html:8
+#: templates/daterangefilter/_future_ranges.html:3
+#: templates/daterangefilter/_past_ranges.html:3
+msgid "Today"
+msgstr "Сегодня"
+
+#: templates/daterangefilter/_future_ranges.html:4
+#: templates/daterangefilter/_past_ranges.html:5
+msgid "Yesterday"
+msgstr "Вчера"
+
+#: templates/daterangefilter/_future_ranges.html:5
+#: templates/daterangefilter/_past_ranges.html:4
+msgid "Tomorrow"
+msgstr "Завтра"
+
+#: templates/daterangefilter/_future_ranges.html:6
+msgid "Day after tomorrow"
+msgstr "Послезавтра"
+
+#: templates/daterangefilter/_future_ranges.html:7
+#: templates/daterangefilter/_past_ranges.html:7
+msgid "This week"
+msgstr "Эта неделя"
+
+#: templates/daterangefilter/_future_ranges.html:8
+msgid "Next week"
+msgstr "Следующая неделя"
+
+#: templates/daterangefilter/_future_ranges.html:9
+msgid "In the future"
+msgstr "В будущем"
+
+#: templates/daterangefilter/_past_ranges.html:6
+msgid "Day before yesterday"
+msgstr "Позавчера"
+
+#: templates/daterangefilter/_past_ranges.html:8
+msgid "Previous week"
+msgstr "Предыдущая неделя"
+
+#: templates/daterangefilter/_past_ranges.html:9
+msgid "In the past"
+msgstr "В прошлом"
+
+#: templates/daterangefilter/daterangefilter.html:11
 #, python-format
 msgid " By %(filter_title)s "
 msgstr " %(filter_title)s "
 
-#: templates/daterangefilter/ranges.html:3
-msgid "Today"
-msgstr "Сегодня"
-
-#: templates/daterangefilter/ranges.html:4
-msgid "Yesterday"
-msgstr "Вчера"
-
-#: templates/daterangefilter/ranges.html:5
-msgid "Tomorrow"
-msgstr "Завтра"
-
-#: templates/daterangefilter/ranges.html:6
-msgid "Day after tomorrow"
-msgstr "Послезавтра"
-
-#: templates/daterangefilter/ranges.html:7
-msgid "This week"
-msgstr "Эта неделя"
-
-#: templates/daterangefilter/ranges.html:8
-msgid "Next week"
-msgstr "Следующая неделя"
-
-#: templates/daterangefilter/ranges.html:9
-msgid "In future"
-msgstr "В будущем"
-
-#: templates/daterangefilter/suit_daterangefilter.html:21
+#: templates/daterangefilter/daterangefilter.html:29
+#: templates/daterangefilter/suit_daterangefilter.html:25
 msgid "Custom Range"
 msgstr "Другой диапазон"

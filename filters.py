@@ -31,6 +31,7 @@ class DateRangeFilter(admin.FieldListFilter):
     def choices(self, changelist):
         yield {
             'field_name': self.field_path,
+            'ranges_template': self.ranges_template,
             'value': self.lookup_val,
             'query_string': changelist.get_query_string(remove=self._get_expected_fields())
         }
@@ -42,3 +43,12 @@ class DateRangeFilter(admin.FieldListFilter):
         return [self.lookup_kwarg_gte, self.lookup_kwarg_lte]
 
     template = property(get_template)
+    ranges_template = None
+
+
+class FutureDateRangeFilter(DateRangeFilter):
+    ranges_template = 'daterangefilter/_future_ranges.html'
+
+
+class PastDateRangeFilter(DateRangeFilter):
+    ranges_template = 'daterangefilter/_past_ranges.html'

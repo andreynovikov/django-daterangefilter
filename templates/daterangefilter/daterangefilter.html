@@ -15,7 +15,7 @@
 <script>
 (function($) {
     window.jQuery = $;
-    $.getScript('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.js', function() {
+    $.getScript('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', function() {
         $(document).ready(function () {
             moment.locale('{{ LANGUAGE_CODE }}');
             $('input#drp-{{ field_name }}').daterangepicker({

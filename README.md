@@ -11,6 +11,8 @@
 
 Application adds three Django admin list filters: ```DateRangeFilter```, ```PastDateRangeFilter``` and ```FutureDateRangeFilter```. These filters let user filter models by date range. ```PastDateRangeFilter``` and ```FutureDateRangeFilter``` add quick selection of predefined date ranges. Filters can be applied to any model date fields. Application supports default Django admin theme and [Suit theme](https://github.com/darklow/django-suit).
 
+![Admin screenshot](https://raw.githubusercontent.com/andreynovikov/django-daterangefilter/master/screenshot-admin.png)
+
 ## Requirements
 
 * Python 2.7+ or Python 3.3+

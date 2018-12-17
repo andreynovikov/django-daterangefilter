@@ -6,6 +6,7 @@
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 <style>
 .daterangepicker .drp-calendar { max-width: inherit }
+.daterangepicker .ranges li { list-style-type: none }
 </style>
 {% with field_name=choices.0.field_name %}
 <h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>

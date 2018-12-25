@@ -34,7 +34,7 @@
                 $('input#drp-{{ field_name }}').closest('li').addClass("selected");
             $('input#drp-{{ field_name }}').on('apply.daterangepicker', function(ev, picker) {
                 $(this).val(picker.startDate.format('YYYY.MM.DD') + ' - ' + picker.endDate.format('YYYY.MM.DD'));
-                window.location = window.location.pathname + '{{ choices.0.query_string }}' +
+                window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
                                   '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') +
                                   '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD')
             });
@@ -46,12 +46,12 @@
                 if (range !== "") {
                     var vals = range.split(/\s?-\s?/);
                     if (vals.length == 2) {
-                        window.location = window.location.pathname + '{{ choices.0.query_string }}' +
+                        window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
                                           '&{{ field_name }}__gte=' + vals[0].replace(/\./g, '-') +
                                           '&{{ field_name }}__lte=' + vals[1].replace(/\./g, '-')
                     }
                 } else {
-                    window.location = window.location.pathname + '{{ choices.0.query_string }}'
+                    window.location = window.location.pathname + '{{ choices.0.query_string|safe }}'
                 }
             });
         });

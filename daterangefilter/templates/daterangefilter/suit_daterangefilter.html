@@ -7,7 +7,7 @@
 .daterangepicker .drp-calendar { max-width: inherit }
 .daterangepicker .ranges li { white-space: nowrap }
 </style>
-<input type="text" class="form-control" id="drp-{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" placeholder="{{ title|capfirst }}" />
+<input type="text" class="form-control" id="drp-{{ field_name }}" autocomplete="off" placeholder="{{ title|capfirst }}" />
 <script>
 django.jQuery('document').ready(function () {
     {% if LANGUAGE_CODE != 'en-us' %}
@@ -16,25 +16,28 @@ django.jQuery('document').ready(function () {
         window.drpMomentInitialized = true;
     }
     {% endif %}
-    $('input#drp-{{ field_name }}').daterangepicker({
+    var $drp_input = $('#drp-{{ field_name }}');
+    // initialize date range picker widget
+    $drp_input.daterangepicker({
         {% include "daterangefilter/ranges.html" %}
         opens: 'center',
         autoApply: true,
         autoUpdateInput: false,
         locale: {
-            format: 'YYYY.MM.DD',
             monthNames: moment.months(),
             customRangeLabel: '{% trans "Custom Range" %}'
         }
     });
-    $('input#drp-{{ field_name }}').on('apply.daterangepicker', function(ev, picker) {
-        $(this).val(picker.startDate.format('YYYY.MM.DD') + ' - ' + picker.endDate.format('YYYY.MM.DD'));
+    // act on date range selection via widget
+    $drp_input.on('apply.daterangepicker', function(ev, picker) {
+        $(this).val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
         $(this).trigger('change');
     });
-    $('input#drp-{{ field_name }}').on('cancel.daterangepicker', function(ev, picker) {
+    $drp_input.on('cancel.daterangepicker', function(ev, picker) {
         $(this).val('');
     });
-    $('input#drp-{{ field_name }}').on('change', function(ev) {
+    // act on manual date range edit
+    $drp_input.on('change', function(ev) {
         var $field = $(this);
         var hidden_gte_id = 'drp-{{ field_name }}-gte';
         var hidden_lte_id = 'drp-{{ field_name }}-lte';
@@ -42,7 +45,7 @@ django.jQuery('document').ready(function () {
         var $hidden_lte = $('#' + hidden_lte_id);
         var range = $field.val();
         if (range !== "") {
-            var vals = range.split(/\s?-\s?/);
+            var vals = range.split(' - ');
             if (vals.length == 2) {
                 if (!$hidden_gte.length) {
                     $hidden_gte = $('<input/>').attr('type', 'hidden').attr('id', hidden_gte_id);
@@ -53,9 +56,9 @@ django.jQuery('document').ready(function () {
                     $field.after($hidden_lte);
                 }
                 $hidden_gte.attr('name', '{{ field_name }}__gte');
-                $hidden_gte.val(vals[0].replace(/\./g, '-'));
+                $hidden_gte.val(moment(vals[0], 'L').format('YYYY-MM-DD'));
                 $hidden_lte.attr('name', '{{ field_name }}__lte');
-                $hidden_lte.val(vals[1].replace(/\./g, '-'));
+                $hidden_lte.val(moment(vals[1], 'L').format('YYYY-MM-DD'));
                 $field.addClass('active');
                 return;
             }
@@ -66,6 +69,17 @@ django.jQuery('document').ready(function () {
             $hidden_lte.removeAttr('name');
         $field.removeClass('active');
     });
-    $('input#drp-{{ field_name }}').trigger('change');
+    // set initial value
+    var range = "{{ choices.0.value }}";
+    if (range != "") {
+        var vals = range.split(' - ');
+        if (vals.length == 2) {
+            var picker = $drp_input.data('daterangepicker');
+            picker.setStartDate(moment(vals[0], 'YYYY-MM-DD'));
+            picker.setEndDate(moment(vals[1], 'YYYY-MM-DD'));
+            $drp_input.val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
+            $drp_input.trigger('change');
+        }
+    }
 });
 </script>

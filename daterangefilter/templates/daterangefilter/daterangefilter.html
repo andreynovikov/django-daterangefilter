@@ -9,7 +9,7 @@
 {% with field_name=choices.0.field_name %}
 <h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
 <ul><li style="display: block; padding-right: 15px">
-<input type="text" class="form-control" id="drp-{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" style="width: 100%" />
+<input type="text" class="form-control" id="drp-{{ field_name }}" autocomplete="off" style="width: 100%" />
 </li></ul>
 <script>
 (function($) {
@@ -19,41 +19,54 @@
             {% if LANGUAGE_CODE != 'en-us' %}
             moment.locale('{{ LANGUAGE_CODE }}');
             {% endif %}
-            $('input#drp-{{ field_name }}').daterangepicker({
+            var $drp_input = $('#drp-{{ field_name }}');
+            // initialize date range picker widget
+            $drp_input.daterangepicker({
                 {% include "daterangefilter/ranges.html" %}
                 opens: 'left',
                 autoApply: true,
                 autoUpdateInput: false,
                 locale: {
-                    format: 'YYYY.MM.DD',
                     monthNames: moment.months(),
                     customRangeLabel: '{% trans "Custom Range" %}'
                 }
             });
-            if ($('input#drp-{{ field_name }}').val() != '')
-                $('input#drp-{{ field_name }}').closest('li').addClass("selected");
-            $('input#drp-{{ field_name }}').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('YYYY.MM.DD') + ' - ' + picker.endDate.format('YYYY.MM.DD'));
+            // act on date range selection via widget
+            $drp_input.on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
                 window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
                                   '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') +
                                   '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD')
             });
-            $('input#drp-{{ field_name }}').on('cancel.daterangepicker', function(ev, picker) {
+            $drp_input.on('cancel.daterangepicker', function(ev, picker) {
                 $(this).val('');
             });
-            $('input#drp-{{ field_name }}').on('change', function(ev) {
+            // act on manual date range edit
+            $drp_input.on('change', function(ev) {
                 var range = $(this).val();
                 if (range !== "") {
-                    var vals = range.split(/\s?-\s?/);
+                    var vals = range.split(' - ');
                     if (vals.length == 2) {
                         window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                          '&{{ field_name }}__gte=' + vals[0].replace(/\./g, '-') +
-                                          '&{{ field_name }}__lte=' + vals[1].replace(/\./g, '-')
+                                          '&{{ field_name }}__gte=' + moment(vals[0], 'L').format('YYYY-MM-DD') +
+                                          '&{{ field_name }}__lte=' + moment(vals[1], 'L').format('YYYY-MM-DD')
                     }
                 } else {
                     window.location = window.location.pathname + '{{ choices.0.query_string|safe }}'
                 }
             });
+            // set initial value
+            var range = "{{ choices.0.value }}";
+            if (range != "") {
+                var vals = range.split(' - ');
+                if (vals.length == 2) {
+                    var picker = $drp_input.data('daterangepicker');
+                    picker.setStartDate(moment(vals[0], 'YYYY-MM-DD'));
+                    picker.setEndDate(moment(vals[1], 'YYYY-MM-DD'));
+                    $drp_input.val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
+                    $drp_input.closest('li').addClass("selected");
+                }
+            }
         });
     });
 }(django.jQuery));

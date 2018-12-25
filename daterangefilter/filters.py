@@ -20,7 +20,7 @@ class DateRangeFilter(admin.FieldListFilter):
         if self.lookup_lte == '':
             params.pop(self.lookup_kwarg_lte)
         if self.lookup_gte and self.lookup_lte:
-            self.lookup_val = '{} - {}'.format(self.lookup_gte.replace('-','.'), self.lookup_lte.replace('-','.'))
+            self.lookup_val = '{} - {}'.format(self.lookup_gte, self.lookup_lte)
             # if we are filtering DateTimeField we should add one day to final date
             if isinstance(model._meta.get_field(field_path), models.DateTimeField):
                 gte_date = datetime.datetime.strptime(self.lookup_gte, '%Y-%m-%d')

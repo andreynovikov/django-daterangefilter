@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-13 14:51+0300\n"
+"POT-Creation-Date: 2018-12-25 17:51+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,18 +24,23 @@ msgstr ""
 msgid "Date Range Filter"
 msgstr "Фильтр диапазона дат"
 
-#: templates/daterangefilter/_future_ranges.html:3
-#: templates/daterangefilter/_past_ranges.html:3
-msgid "Today"
-msgstr "Сегодня"
+#: filters.py:36
+#, python-format
+msgid "Invalid date for '%(field_name)s' field range filter"
+msgstr "Некорректная дата для фильтра диапазона дат поля '%(field_name)s'"
 
-#: templates/daterangefilter/_future_ranges.html:4
+#: templates/daterangefilter/_future_ranges.html:3
 #: templates/daterangefilter/_past_ranges.html:5
 msgid "Yesterday"
 msgstr "Вчера"
 
-#: templates/daterangefilter/_future_ranges.html:5
+#: templates/daterangefilter/_future_ranges.html:4
 #: templates/daterangefilter/_past_ranges.html:4
+msgid "Today"
+msgstr "Сегодня"
+
+#: templates/daterangefilter/_future_ranges.html:5
+#: templates/daterangefilter/_past_ranges.html:3
 msgid "Tomorrow"
 msgstr "Завтра"
 
@@ -68,12 +73,12 @@ msgstr "Предыдущая неделя"
 msgid "In the past"
 msgstr "В прошлом"
 
-#: templates/daterangefilter/daterangefilter.html:11
+#: templates/daterangefilter/daterangefilter.html:10
 #, python-format
 msgid " By %(filter_title)s "
 msgstr " %(filter_title)s "
 
-#: templates/daterangefilter/daterangefilter.html:29
-#: templates/daterangefilter/suit_daterangefilter.html:25
+#: templates/daterangefilter/daterangefilter.html:31
+#: templates/daterangefilter/suit_daterangefilter.html:28
 msgid "Custom Range"
 msgstr "Другой диапазон"

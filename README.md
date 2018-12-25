@@ -36,7 +36,7 @@ INSTALLED_APPS = (
 )
 ```
 
-Check that ```LANGUAGE_CODE``` is defined in project configuration.
+Application uses static files so do not forget to issue ```collectstatic``` management command in production environment.
 
 ## Example usage
 

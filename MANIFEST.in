@@ -1,4 +1,4 @@
 include LICENSE
 include README.md
 include MANIFEST.in
-recursive-include daterangefilter *.py *.html *.po *.mo
+recursive-include daterangefilter *.py *.html *.js *.css *.po *.mo

@@ -1,9 +1,8 @@
-{% load i18n %}
+{% load static i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<script src="https://cdn.jsdelivr.net/npm/moment/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/moment/locale/{{ LANGUAGE_CODE }}.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% include "daterangefilter/_load_momentjs.html" %}
+<link rel="stylesheet" href="{% static 'daterangefilter/daterangepicker/daterangepicker.css' %}" />
+<script src="{% static 'daterangefilter/daterangepicker/daterangepicker.min.js' %}"></script>
 <style>
 .daterangepicker .drp-calendar { max-width: inherit }
 .daterangepicker .ranges li { white-space: nowrap }
@@ -11,10 +10,12 @@
 <input type="text" class="form-control" id="drp-{{ field_name }}" value="{{ choices.0.value }}" autocomplete="off" placeholder="{{ title|capfirst }}" />
 <script>
 django.jQuery('document').ready(function () {
+    {% if LANGUAGE_CODE != 'en-us' %}
     if (!window.drpMomentInitialized) {
         moment.locale('{{ LANGUAGE_CODE }}');
         window.drpMomentInitialized = true;
     }
+    {% endif %}
     $('input#drp-{{ field_name }}').daterangepicker({
         {% include "daterangefilter/ranges.html" %}
         opens: 'center',

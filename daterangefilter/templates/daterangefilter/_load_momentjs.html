@@ -1,0 +1,11 @@
+{% load static %}
+{% if LANGUAGE_CODE != 'en-us' %}
+  {% if LANGUAGE_CODE in 'ru,' %}{# we use prefetched locale files for available translations #}
+<script src="{% static 'daterangefilter/moment/moment.min.js' %}"></script>
+<script src="{% static 'daterangefilter/moment/locale/'|add:LANGUAGE_CODE|add:'.js' %}"></script>
+  {% else %}
+<script src="{% static 'daterangefilter/moment/moment-with-locales.min.js' %}"></script>
+  {% endif %}
+{% else %}
+<script src="{% static 'daterangefilter/moment/moment.min.js' %}"></script>
+{% endif %}

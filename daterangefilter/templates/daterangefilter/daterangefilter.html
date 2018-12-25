@@ -1,9 +1,7 @@
-{% load i18n %}
+{% load static i18n %}
 {% get_current_language as LANGUAGE_CODE %}
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-{#<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.js"></script>#}
-<script src="https://cdn.jsdelivr.net/npm/moment/locale/{{ LANGUAGE_CODE }}.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% include "daterangefilter/_load_momentjs.html" %}
+<link rel="stylesheet" href="{% static 'daterangefilter/daterangepicker/daterangepicker.css' %}" />
 <style>
 .daterangepicker .drp-calendar { max-width: inherit }
 .daterangepicker .ranges li { list-style-type: none }
@@ -16,9 +14,11 @@
 <script>
 (function($) {
     window.jQuery = $;
-    $.getScript('https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js', function() {
+    $.getScript('{% static 'daterangefilter/daterangepicker/daterangepicker.min.js' %}', function() {
         $(document).ready(function () {
+            {% if LANGUAGE_CODE != 'en-us' %}
             moment.locale('{{ LANGUAGE_CODE }}');
+            {% endif %}
             $('input#drp-{{ field_name }}').daterangepicker({
                 {% include "daterangefilter/ranges.html" %}
                 opens: 'left',

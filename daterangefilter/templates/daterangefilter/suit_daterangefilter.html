@@ -19,7 +19,7 @@ django.jQuery('document').ready(function () {
     var $drp_input = $('#drp-{{ field_name }}');
     // initialize date range picker widget
     $drp_input.daterangepicker({
-        {% include "daterangefilter/ranges.html" %}
+        {% include "daterangefilter/ranges.html" %} //lgtm [js/syntax-error]
         opens: 'center',
         autoApply: true,
         autoUpdateInput: false,

@@ -6,7 +6,6 @@ import datetime
 
 from django.utils import timezone
 from django.test import RequestFactory, TestCase
-from django.test.utils import override_settings
 from django.db import models
 from django.contrib.admin import ModelAdmin, site
 from django.contrib.admin.views.main import ChangeList

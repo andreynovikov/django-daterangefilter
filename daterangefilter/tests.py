@@ -60,6 +60,14 @@ class DateRangeFilterTestCase(TestCase):
         if getattr(modeladmin, 'get_changelist_instance', None):
             return modeladmin.get_changelist_instance(request)
 
+        return ChangeList(
+            request, model, modeladmin.list_display,
+            modeladmin.list_display_links, modeladmin.list_filter,
+            modeladmin.date_hierarchy, modeladmin.search_fields,
+            modeladmin.list_select_related, modeladmin.list_per_page,
+            modeladmin.list_max_show_all, modeladmin.list_editable, modeladmin,
+        )
+
     def test_datefilter(self):
         self.request_factory = RequestFactory()
         modeladmin = MyModelAdmin(MyModel, site)

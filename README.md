@@ -15,20 +15,20 @@ Application adds three Django admin list filters: ```DateRangeFilter```, ```Past
 
 ## Requirements
 
-* Python 2.7+ or Python 3.3+
-* Django 1.9+
+  * Python 2.7+ or Python 3.3+
+  * Django 1.9+
 
 ## Installation
 
 Install ```django-daterangefilter``` using pip:
 
-```
+```shell
 pip install django-daterangefilter
 ```
 
 Add ```daterangefilter``` to ```INSTALLED_APPS```. Example:
 
-```
+```python
 INSTALLED_APPS = (
     ...
     'daterangefilter',
@@ -42,7 +42,7 @@ Application uses static files so do not forget to issue ```collectstatic``` mana
 
 in admin.py:
 
-```
+```python
 from django.contrib import admin
 from daterangefilter.filters import PastDateRangeFilter, FutureDateRangeFilter
 

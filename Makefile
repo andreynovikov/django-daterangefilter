@@ -1,7 +1,8 @@
 .PHONY: test sdist wheel release pre-release clean
 
 test:
-	python runtests.py
+	coverage run --source=daterangefilter runtests.py
+	coverage report -m
 
 sdist:
 	python setup.py sdist

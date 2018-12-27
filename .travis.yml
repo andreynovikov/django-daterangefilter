@@ -25,10 +25,16 @@ matrix:
 
 install:
     - pip install Django==${DJANGO_VERSION}
+    - pip install coverage
+    - pip install codacy-coverage
 
 branches:
   only:
     - master
 
 script:
-  - python runtests.py
+  - coverage run --source=daterangefilter runtests.py
+
+after_success:
+  - coverage xml
+  - python-codacy-coverage -r coverage.xml

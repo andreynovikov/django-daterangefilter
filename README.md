@@ -5,7 +5,7 @@
 [![PyPI release](https://img.shields.io/pypi/v/django-daterangefilter.svg)](https://pypi.org/project/django-daterangefilter/)
 [![Python version](https://img.shields.io/pypi/pyversions/django-daterangefilter.svg)](https://pypi.org/project/django-daterangefilter/)
 [![GitHub issues](https://img.shields.io/github/issues/andreynovikov/django-daterangefilter.svg)](https://github.com/andreynovikov/django-daterangefilter/issues)
-[![LGTM code quality](https://img.shields.io/lgtm/grade/python/g/andreynovikov/django-daterangefilter.svg)](https://lgtm.com/projects/g/andreynovikov/django-daterangefilter/)
+[![Code quality](https://img.shields.io/codacy/grade/e90b9f21941a4d8c93edb4a58caa3667.svg)](https://www.codacy.com/app/novikov/django-daterangefilter)
 [![Coverage](https://img.shields.io/codacy/coverage/e90b9f21941a4d8c93edb4a58caa3667.svg)](https://www.codacy.com/app/novikov/django-daterangefilter)
 [![GitHub license](https://img.shields.io/github/license/andreynovikov/django-daterangefilter.svg)](LICENSE)
 

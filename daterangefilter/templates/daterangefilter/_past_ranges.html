@@ -1,6 +1,5 @@
 {% load i18n %}
         ranges: {
-            '{% trans "Tomorrow" %}': [moment().add(1, 'days'), moment().add(1, 'days')],
             '{% trans "Today" %}': [moment(), moment()],
             '{% trans "Yesterday" %}': [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
             '{% trans "Day before yesterday" %}': [moment().subtract(2, 'days'), moment().subtract(2, 'days')],

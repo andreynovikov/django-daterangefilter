@@ -56,6 +56,7 @@ class DateRangeFilterTestCase(TestCase):
 
         self.user = User.objects.create_user(username='test', password='top_secret')
 
+
     def get_changelist(self, request, model, modeladmin):
         if getattr(modeladmin, 'get_changelist_instance', None):
             return modeladmin.get_changelist_instance(request)
@@ -67,6 +68,19 @@ class DateRangeFilterTestCase(TestCase):
             modeladmin.list_select_related, modeladmin.list_per_page,
             modeladmin.list_max_show_all, modeladmin.list_editable, modeladmin,
         )
+
+
+    def test_get_template(self):
+        self.request_factory = RequestFactory()
+        modeladmin = MyModelAdmin(MyModel, site)
+
+        request = self.request_factory.get('/')
+        request.user = self.user
+
+        changelist = self.get_changelist(request, MyModel, modeladmin)
+        filterspec = changelist.get_filters(request)[0][0]
+        self.assertEqual(filterspec.template, 'daterangefilter/daterangefilter.html')
+
 
     def test_datefilter(self):
         self.request_factory = RequestFactory()
@@ -83,6 +97,7 @@ class DateRangeFilterTestCase(TestCase):
         filterspec = changelist.get_filters(request)[0][0]
         self.assertEqual(force_text(filterspec.title), 'created at')
 
+
     def test_datefilter_filtered(self):
         self.request_factory = RequestFactory()
         modeladmin = MyModelAdmin(MyModel, site)
@@ -96,6 +111,27 @@ class DateRangeFilterTestCase(TestCase):
         queryset = changelist.get_queryset(request)
 
         self.assertEqual(list(queryset), [self.object_one])
+        filterspec = changelist.get_filters(request)[0][0]
+        self.assertEqual(force_text(filterspec.title), 'created at')
+
+        choice = select_by(filterspec.choices(changelist))
+        self.assertEqual(choice['query_string'], '?')
+        self.assertEqual(choice['field_name'], 'created_at')
+
+
+    def test_datefilter_empty_values(self):
+        self.request_factory = RequestFactory()
+        modeladmin = MyModelAdmin(MyModel, site)
+
+        request = self.request_factory.get('/', {'created_at__gte': '',
+                                                 'created_at__lte': ''})
+        request.user = self.user
+
+        changelist = self.get_changelist(request, MyModel, modeladmin)
+
+        queryset = changelist.get_queryset(request)
+
+        self.assertEqual(list(queryset), [self.object_two, self.object_one])
         filterspec = changelist.get_filters(request)[0][0]
         self.assertEqual(force_text(filterspec.title), 'created at')
 

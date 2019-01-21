@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='django-daterangefilter',
-    version='0.8.0',
+    version='1.0.0',
     license='MIT',
     author='Andrey Novikov',
     author_email='novikov@gmail.com',
@@ -15,13 +15,13 @@ setuptools.setup(
     url='https://github.com/andreynovikov/django-daterangefilter/tree/master',
     project_urls={
         'Source': 'https://github.com/andreynovikov/django-daterangefilter/',
-        'Tracker': 'https://github.com/andreynovikov/django-daterangefilter/issues',
+        'Tracker': 'https://github.com/andreynovikov/django-daterangefilter/issues'
     },
     packages=setuptools.find_packages(),
     include_package_data=True,
     zip_safe=False,
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
         'Programming Language :: Python',
         'Programming Language :: Python :: 2',

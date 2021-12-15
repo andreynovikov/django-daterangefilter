@@ -22,12 +22,14 @@ class DateRangeFilter(admin.FieldListFilter):
         if self.lookup_gte and self.lookup_lte:
             self.lookup_val = '{} - {}'.format(self.lookup_gte, self.lookup_lte)
             # if we are filtering DateTimeField we should add one day to final date
-            if "__" in field_path:
-                related_model, field = field_path.split("__")
-                field = model._meta.get_field(related_model).related_model._meta.get_field(field)
-            else:
-                field = model._meta.get_field(field_path)
-                
+            new_field_path = field_path
+            nested_model = model
+            while len(new_field_path.split('__')) > 1:
+                related_model, new_field_path = new_field_path.split("__")[0], '__'.join(new_field_path.split("__")[1:])
+                nested_model = nested_model._meta.get_field(related_model).related_model
+
+            field = nested_model._meta.get_field(new_field_path)
+
             if isinstance(field, models.DateTimeField):
                 try:
                     gte_date = datetime.datetime.strptime(self.lookup_gte, '%Y-%m-%d')

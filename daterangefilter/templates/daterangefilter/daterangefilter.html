@@ -1,3 +1,4 @@
+{# https://github.com/andreynovikov/django-daterangefilter/blob/master/daterangefilter/templates/daterangefilter/daterangefilter.html #}
 {% load static i18n %}
 {% get_current_language as LANGUAGE_CODE %}
 {% include "daterangefilter/_load_momentjs.html" %}
@@ -7,17 +8,21 @@
 .daterangepicker .ranges li { list-style-type: none }
 </style>
 {% with field_name=choices.0.field_name %}
-<h3>{% blocktrans with filter_title=title %} By {{ filter_title }} {% endblocktrans %}</h3>
-<ul><li style="display: block; padding-right: 15px">
-<input type="text" class="form-control" id="drp-{{ field_name }}" autocomplete="off" style="width: 100%" />
-</li></ul>
+<div class="grp-module">
+  <div class="grp-row">
+    <label>{% blocktrans with title|capfirst as filter_title %}{{ filter_title }}{% endblocktrans %}</label>
+    <ul><li style="display: block;">
+    <input type="text" class="form-control" id="drp-{{ field_name }}" autocomplete="off" style="width: 100%" />
+    </li></ul>
+  </div>
+</div>
 <script>
 (function($) {
     window.jQuery = $;
     $.getScript('{% static 'daterangefilter/daterangepicker/daterangepicker.min.js' %}', function() {
         $(document).ready(function () {
             {% if LANGUAGE_CODE != 'en-us' %}
-            moment.locale('{{ LANGUAGE_CODE }}');
+            moment.locale('{{ LANGUAGE_CODE }}');
             {% endif %}
             var $drp_input = $('#drp-{{ field_name }}');
             // initialize date range picker widget
@@ -33,10 +38,10 @@
             });
             // act on date range selection via widget
             $drp_input.on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
+                $(this).val(picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000' + ' - ' + picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999');
                 window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                  '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') +
-                                  '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD')
+                                  '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000' +
+                                  '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999'
             });
             $drp_input.on('cancel.daterangepicker', function(ev, picker) {
                 $(this).val('');
@@ -48,8 +53,8 @@
                     var vals = range.split(' - ');
                     if (vals.length == 2) {
                         window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                          '&{{ field_name }}__gte=' + moment(vals[0], 'L').format('YYYY-MM-DD') +
-                                          '&{{ field_name }}__lte=' + moment(vals[1], 'L').format('YYYY-MM-DD')
+                                          '&{{ field_name }}__gte=' + moment(vals[0], 'YYYY-MM-DD').format('YYYY-MM-DD') + 'T00:00:00.000' +
+                                          '&{{ field_name }}__lte=' + moment(vals[1], 'YYYY-MM-DD').format('YYYY-MM-DD') + 'T23:59:59.999'
                     }
                 } else {
                     window.location = window.location.pathname + '{{ choices.0.query_string|safe }}'
@@ -63,7 +68,7 @@
                     var picker = $drp_input.data('daterangepicker');
                     picker.setStartDate(moment(vals[0], 'YYYY-MM-DD'));
                     picker.setEndDate(moment(vals[1], 'YYYY-MM-DD'));
-                    $drp_input.val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
+                    $drp_input.val(picker.startDate.format('YYYY-MM-DD') + ' - ' + picker.endDate.format('YYYY-MM-DD'));
                     $drp_input.closest('li').addClass("selected");
                 }
             }

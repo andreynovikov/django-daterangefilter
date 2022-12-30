@@ -14,6 +14,7 @@ class DateRangeFilter(admin.FieldListFilter):
         self.lookup_kwarg_lte = '{}__lte'.format(field_path)
         self.lookup_gte = params.get(self.lookup_kwarg_gte)
         self.lookup_lte = params.get(self.lookup_kwarg_lte)
+
         # todo: check if this is required in default admin
         if self.lookup_gte == '':
             params.pop(self.lookup_kwarg_gte)
@@ -48,6 +49,7 @@ class DateRangeFilter(admin.FieldListFilter):
                 params[self.lookup_kwarg_lte] = lte_date.strftime('%Y-%m-%d %H:%M:%S%z')
         else:
             self.lookup_val = ''
+
         super(DateRangeFilter, self).__init__(field, request, params, model, model_admin, field_path)
 
     def get_template(self):

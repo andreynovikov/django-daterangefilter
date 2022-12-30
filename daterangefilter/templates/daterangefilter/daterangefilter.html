@@ -12,7 +12,7 @@
   <div class="grp-row">
     <label>{% blocktrans with title|capfirst as filter_title %}{{ filter_title }}{% endblocktrans %}</label>
     <ul><li style="display: block;">
-    <input type="text" class="form-control" id="drp-{{ field_name }}" autocomplete="off" style="width: 100%" />
+    <input type="text" class="form-control" id="drp-{{ field_name }}" data-field-name="{{ field_name }}" autocomplete="off" style="width: 100%" />
     </li></ul>
   </div>
 </div>
@@ -24,6 +24,7 @@
             {% if LANGUAGE_CODE != 'en-us' %}
             moment.locale('{{ LANGUAGE_CODE }}');
             {% endif %}
+
             var $drp_input = $('#drp-{{ field_name }}');
             // initialize date range picker widget
             $drp_input.daterangepicker({
@@ -38,27 +39,34 @@
             });
             // act on date range selection via widget
             $drp_input.on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000' + ' - ' + picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999');
-                window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                  '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000' +
-                                  '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999'
+                var from = picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000';
+                var to = picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999';
+                $(this).val(from + ' - ' + to);
+
+                var applyFilter = $(this).closest('.grp-filter').find('#grp-filter-apply');
+                var query = applyFilter.attr("href");
+                if (query.match(/{{ field_name }}__gte=/)) {
+                    query = query.replace(/({{ field_name }}__gte=)([^?]*)/, "$1" + from);
+                } else {
+                    query = query + '&{{ field_name }}__gte=' + from;
+                }
+
+                if (query.match(/{{ field_name }}__lte=/)) {
+                    query = query.replace(/({{ field_name }}__lte=)([^?]*)/, "$1" + to);
+                } else {
+                    query = query + '&{{ field_name }}__lte=' + to;
+                }
+
+                query = query.replace(/^&/, '');
+                applyFilter.attr('href', '?' + query);
+                // window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
+                //                   '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000' +
+                //                   '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999'
+                // $drp_input.val('?{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') + 'T00:00:00.000' +
+                //     '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD') + 'T23:59:59.999');
             });
             $drp_input.on('cancel.daterangepicker', function(ev, picker) {
                 $(this).val('');
-            });
-            // act on manual date range edit
-            $drp_input.on('change', function(ev) {
-                var range = $(this).val();
-                if (range !== "") {
-                    var vals = range.split(' - ');
-                    if (vals.length == 2) {
-                        window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                          '&{{ field_name }}__gte=' + moment(vals[0], 'YYYY-MM-DD').format('YYYY-MM-DD') + 'T00:00:00.000' +
-                                          '&{{ field_name }}__lte=' + moment(vals[1], 'YYYY-MM-DD').format('YYYY-MM-DD') + 'T23:59:59.999'
-                    }
-                } else {
-                    window.location = window.location.pathname + '{{ choices.0.query_string|safe }}'
-                }
             });
             // set initial value
             var range = "{{ choices.0.value }}";

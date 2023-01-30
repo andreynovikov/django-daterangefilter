@@ -29,7 +29,7 @@ class DateRangeFilter(admin.FieldListFilter):
             else:
                 field = model._meta.get_field(field_path)
 
-            if isinstance(field, models.DateTimeField):
+            if isinstance(field, models.DateTimeField) or isinstance(field, models.DateField):
                 try:
                     gte_date = datetime.datetime.strptime(self.lookup_gte, '%Y-%m-%d')
                     lte_date = datetime.datetime.strptime(self.lookup_lte, '%Y-%m-%d')
@@ -45,8 +45,9 @@ class DateRangeFilter(admin.FieldListFilter):
                     gte_date = timezone.make_aware(gte_date, timezone.get_current_timezone())
                     lte_date = timezone.make_aware(lte_date, timezone.get_current_timezone())
 
-                params[self.lookup_kwarg_gte] = gte_date.strftime('%Y-%m-%d %H:%M:%S%z')
-                params[self.lookup_kwarg_lte] = lte_date.strftime('%Y-%m-%d %H:%M:%S%z')
+                fmt = '%Y-%m-%d %H:%M:%S%z' if isinstance(field, models.DateTimeField) else '%Y-%m-%d'
+                params[self.lookup_kwarg_gte] = gte_date.strftime(fmt)
+                params[self.lookup_kwarg_lte] = lte_date.strftime(fmt)
         else:
             self.lookup_val = ''
 

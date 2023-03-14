@@ -45,6 +45,10 @@
 
                 var applyFilter = $(this).closest('.grp-filter').find('#grp-filter-apply');
                 var query = applyFilter.attr("href");
+                if (! query) {
+                    query = window.location.search;
+                }
+
                 if (query.match(/{{ field_name }}__gte=/)) {
                     query = query.replace(/({{ field_name }}__gte=)([^?&]*)/, "$1" + from);
                 } else {

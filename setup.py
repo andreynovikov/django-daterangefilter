@@ -5,7 +5,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='django-daterangefilter',
-    version='1.0.0',
+    version='1.0.1',
     license='MIT',
     author='Andrey Novikov',
     author_email='novikov@gmail.com',

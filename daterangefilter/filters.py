@@ -5,6 +5,13 @@ from django.contrib import admin, messages
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+ 
+
+def get_last_value_from_parameters(parameters, key):
+    # Backported from Django 5.2:
+    # https://github.com/django/django/blob/main/django/contrib/admin/utils.py#L62
+    value = parameters.get(key)
+    return value[-1] if isinstance(value, list) else value
 
 
 class DateRangeFilter(admin.FieldListFilter):
@@ -12,8 +19,8 @@ class DateRangeFilter(admin.FieldListFilter):
         self.field_name = field_path
         self.lookup_kwarg_gte = '{}__gte'.format(field_path)
         self.lookup_kwarg_lte = '{}__lte'.format(field_path)
-        self.lookup_gte = params.get(self.lookup_kwarg_gte)
-        self.lookup_lte = params.get(self.lookup_kwarg_lte)
+        self.lookup_gte = get_last_value_from_parameters(params, self.lookup_kwarg_gte)
+        self.lookup_lte = get_last_value_from_parameters(params, self.lookup_kwarg_lte)
         # todo: check if this is required in default admin
         if self.lookup_gte == '':
             params.pop(self.lookup_kwarg_gte)

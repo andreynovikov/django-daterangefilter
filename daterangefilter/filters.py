@@ -45,8 +45,8 @@ class DateRangeFilter(admin.FieldListFilter):
                     if settings.USE_TZ:
                         gte_date = timezone.make_aware(gte_date, timezone.get_current_timezone())
                         lte_date = timezone.make_aware(lte_date, timezone.get_current_timezone())
-                    params[self.lookup_kwarg_gte] = gte_date.strftime('%Y-%m-%d %H:%M:%S%z')
-                    params[self.lookup_kwarg_lte] = lte_date.strftime('%Y-%m-%d %H:%M:%S%z')
+                    params[self.lookup_kwarg_gte] = [gte_date.strftime('%Y-%m-%d %H:%M:%S%z')]
+                    params[self.lookup_kwarg_lte] = [lte_date.strftime('%Y-%m-%d %H:%M:%S%z')]
                 except ValueError:
                     messages.add_message(request, messages.ERROR, _("Invalid date for '%(field_name)s' field range filter") % {'field_name': field.verbose_name})
         else:

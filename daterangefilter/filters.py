@@ -12,8 +12,8 @@ class DateRangeFilter(admin.FieldListFilter):
         self.field_name = field_path
         self.lookup_kwarg_gte = '{}__gte'.format(field_path)
         self.lookup_kwarg_lte = '{}__lte'.format(field_path)
-        self.lookup_gte = params.get(self.lookup_kwarg_gte)
-        self.lookup_lte = params.get(self.lookup_kwarg_lte)
+        self.lookup_gte = params.get(self.lookup_kwarg_gte[0])
+        self.lookup_lte = params.get(self.lookup_kwarg_lte[0])
         # todo: check if this is required in default admin
         if self.lookup_gte == '':
             params.pop(self.lookup_kwarg_gte)

@@ -5,6 +5,13 @@ from django.contrib import admin, messages
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
+ 
+
+def get_last_value_from_parameters(parameters, key):
+    # Backported from Django 5.2:
+    # https://github.com/django/django/blob/main/django/contrib/admin/utils.py#L62
+    value = parameters.get(key)
+    return value[-1] if isinstance(value, list) else value
 
 
 class DateRangeFilter(admin.FieldListFilter):
@@ -12,8 +19,8 @@ class DateRangeFilter(admin.FieldListFilter):
         self.field_name = field_path
         self.lookup_kwarg_gte = '{}__gte'.format(field_path)
         self.lookup_kwarg_lte = '{}__lte'.format(field_path)
-        self.lookup_gte = params.get(self.lookup_kwarg_gte)
-        self.lookup_lte = params.get(self.lookup_kwarg_lte)
+        self.lookup_gte = get_last_value_from_parameters(params, self.lookup_kwarg_gte)
+        self.lookup_lte = get_last_value_from_parameters(params, self.lookup_kwarg_lte)
         # todo: check if this is required in default admin
         if self.lookup_gte == '':
             params.pop(self.lookup_kwarg_gte)
@@ -22,12 +29,14 @@ class DateRangeFilter(admin.FieldListFilter):
         if self.lookup_gte and self.lookup_lte:
             self.lookup_val = '{} - {}'.format(self.lookup_gte, self.lookup_lte)
             # if we are filtering DateTimeField we should add one day to final date
-            if "__" in field_path:
-                related_model, field = field_path.split("__")
-                field = model._meta.get_field(related_model).related_model._meta.get_field(field)
-            else:
-                field = model._meta.get_field(field_path)
-                
+            new_field_path = field_path
+            nested_model = model
+            while len(new_field_path.split('__')) > 1:
+                related_model, new_field_path = new_field_path.split("__")[0], '__'.join(new_field_path.split("__")[1:])
+                nested_model = nested_model._meta.get_field(related_model).related_model
+
+            field = nested_model._meta.get_field(new_field_path)
+
             if isinstance(field, models.DateTimeField):
                 try:
                     gte_date = datetime.datetime.strptime(self.lookup_gte, '%Y-%m-%d')
@@ -36,8 +45,8 @@ class DateRangeFilter(admin.FieldListFilter):
                     if settings.USE_TZ:
                         gte_date = timezone.make_aware(gte_date, timezone.get_current_timezone())
                         lte_date = timezone.make_aware(lte_date, timezone.get_current_timezone())
-                    params[self.lookup_kwarg_gte] = gte_date.strftime('%Y-%m-%d %H:%M:%S%z')
-                    params[self.lookup_kwarg_lte] = lte_date.strftime('%Y-%m-%d %H:%M:%S%z')
+                    params[self.lookup_kwarg_gte] = [gte_date.strftime('%Y-%m-%d %H:%M:%S%z')]
+                    params[self.lookup_kwarg_lte] = [lte_date.strftime('%Y-%m-%d %H:%M:%S%z')]
                 except ValueError:
                     messages.add_message(request, messages.ERROR, _("Invalid date for '%(field_name)s' field range filter") % {'field_name': field.verbose_name})
         else:

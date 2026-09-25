@@ -4,16 +4,13 @@ test:
 	coverage run --source=daterangefilter runtests.py
 	coverage report -m
 
-sdist:
-	python setup.py sdist
+build:
+	python -m build
 
-wheel:
-	python setup.py bdist_wheel --universal
-
-release: clean sdist wheel
+release: clean build wheel
 	twine upload dist/*
 
-pre-release: sdist wheel
+pre-release: build wheel
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 clean:

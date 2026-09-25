@@ -1,6 +1,6 @@
 # Django admin date range filter
 
-[![Build Status](https://travis-ci.org/andreynovikov/django-daterangefilter.svg?branch=master)](https://travis-ci.org/andreynovikov/django-daterangefilter)
+[![Test status](https://github.com/andreynovikov/django-daterangefilter/actions/workflows/test.yaml/badge.svg)](https://github.com/andreynovikov/django-daterangefilter/actions/workflows/test.yaml)
 [![GitHub release](https://img.shields.io/github/release/andreynovikov/django-daterangefilter.svg)](https://github.com/andreynovikov/django-daterangefilter/releases/latest)
 [![PyPI release](https://img.shields.io/pypi/v/django-daterangefilter.svg)](https://pypi.org/project/django-daterangefilter/)
 [![Python version](https://img.shields.io/pypi/pyversions/django-daterangefilter.svg)](https://pypi.org/project/django-daterangefilter/)

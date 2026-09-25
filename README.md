@@ -13,8 +13,8 @@ Application adds three Django admin list filters: ```DateRangeFilter```, ```Past
 
 ## Requirements
 
-* Python 2.7+ or Python 3.3+
-* Django 1.9+
+* Python 3.8+
+* Django 2.2+
 
 ## Installation
 

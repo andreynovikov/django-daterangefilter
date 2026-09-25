@@ -5,7 +5,7 @@ from django.contrib import admin, messages
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.conf import settings
- 
+
 
 def get_last_value_from_parameters(parameters, key):
     # Backported from Django 5.2:

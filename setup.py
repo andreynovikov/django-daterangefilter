@@ -24,7 +24,6 @@ setuptools.setup(
         'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
         'Programming Language :: Python',
-        'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',

@@ -1,0 +1,18 @@
+name: test
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.13', '3.12', '3.11', '3.10', '3.9', '3.8', '3.7']
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install uv
+        uses: astral-sh/setup-uv@v7
+      - name: Install tox
+        run: |
+          uv tool install --python ${{ matrix.python-version }} tox --with tox-gh
+      - name: Run tests
+        run: tox

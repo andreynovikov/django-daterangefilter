@@ -19,8 +19,10 @@ class DateRangeFilter(admin.FieldListFilter):
         self.field_name = field_path
         self.lookup_kwarg_gte = '{}__gte'.format(field_path)
         self.lookup_kwarg_lte = '{}__lte'.format(field_path)
+        self.lookup_kwarg_isnull = '{}__isnull'.format(field_path)
         self.lookup_gte = get_last_value_from_parameters(params, self.lookup_kwarg_gte)
         self.lookup_lte = get_last_value_from_parameters(params, self.lookup_kwarg_lte)
+        self.lookup_isnull = get_last_value_from_parameters(params, self.lookup_kwarg_isnull)
         # todo: check if this is required in default admin
         if self.lookup_gte == '':
             params.pop(self.lookup_kwarg_gte)
@@ -64,6 +66,8 @@ class DateRangeFilter(admin.FieldListFilter):
             'field_name': self.field_path,
             'ranges_template': self.ranges_template,
             'value': self.lookup_val,
+            'nullable': self.field.null,
+            'no_date': self.lookup_isnull is not None and self.lookup_isnull.lower() not in ('', 'false', '0'),
             'query_string': changelist.get_query_string(remove=self._get_expected_fields())
         }
 
@@ -71,7 +75,7 @@ class DateRangeFilter(admin.FieldListFilter):
         return self._get_expected_fields()
 
     def _get_expected_fields(self):
-        return [self.lookup_kwarg_gte, self.lookup_kwarg_lte]
+        return [self.lookup_kwarg_gte, self.lookup_kwarg_lte, self.lookup_kwarg_isnull]
 
     template = property(get_template)
     ranges_template = None

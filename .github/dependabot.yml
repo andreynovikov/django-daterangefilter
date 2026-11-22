@@ -1,0 +1,13 @@
+# Keeps versions of actions used in GitHub workflows up to date
+# See https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
+version: 2
+updates:
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: monthly
+    groups:
+      # Update all actions in a single pull request
+      github-actions:
+        patterns:
+          - "*"

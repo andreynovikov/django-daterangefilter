@@ -2,5 +2,11 @@ __pycache__/
 build/
 dist/
 *.egg-info/
+.eggs/
+_build/
+_static/
+_templates/
+.tox/
 .coverage
+htmlcov/
 coverage.xml

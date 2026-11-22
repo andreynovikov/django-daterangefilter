@@ -1,16 +1,20 @@
-.PHONY: test sdist wheel release pre-release clean
+.PHONY: test coverage build release pre-release clean
 
 test:
+	tox
+
+coverage:
 	coverage run --source=daterangefilter runtests.py
 	coverage report -m
 
 build:
 	python -m build
 
-release: clean build wheel
+# Releases are published by GitHub workflow on version tag, these targets are a manual fallback
+release: clean build
 	twine upload dist/*
 
-pre-release: build wheel
+pre-release: clean build
 	twine upload --repository-url https://test.pypi.org/legacy/ dist/*
 
 clean:

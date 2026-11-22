@@ -4,25 +4,43 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "django-daterangefilter"
-version = "1.2"
-dependencies = [
-  "django>2.2",
-]
-authors = [
-  {name = "Andrey Novikov", email = "novikov@gmail.com"},
-]
+version = "1.3"
 description = "Date range filter for Django admin"
 readme = "README.md"
 license = "MIT"
+license-files = ["LICENSE"]
+authors = [
+  {name = "Andrey Novikov", email = "novikov@gmail.com"},
+]
+requires-python = ">=3.10"
+dependencies = [
+  "Django>=5.2",
+]
 classifiers = [
   "Development Status :: 5 - Production/Stable",
+  "Environment :: Web Environment",
   "Framework :: Django",
+  "Framework :: Django :: 5.2",
+  "Framework :: Django :: 6.0",
+  "Framework :: Django :: 6.1",
+  "Intended Audience :: Developers",
+  "Operating System :: OS Independent",
   "Programming Language :: Python",
   "Programming Language :: Python :: 3",
-  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
+  "Programming Language :: Python :: 3.15",
 ]
 
 [project.urls]
 Homepage = "https://github.com/andreynovikov/django-daterangefilter"
 Repository = "https://github.com/andreynovikov/django-daterangefilter.git"
 Issues = "https://github.com/andreynovikov/django-daterangefilter/issues"
+Releases = "https://github.com/andreynovikov/django-daterangefilter/releases"
+
+[tool.setuptools.packages.find]
+include = ["daterangefilter*"]

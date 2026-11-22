@@ -1,4 +1,7 @@
 include LICENSE
 include README.md
 include MANIFEST.in
+include tox.ini
+include runtests.py
 recursive-include daterangefilter *.py *.html *.js *.css *.po *.mo
+global-exclude *.py[cod] __pycache__

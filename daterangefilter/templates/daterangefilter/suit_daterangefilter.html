@@ -56,9 +56,9 @@ django.jQuery('document').ready(function () {
                     $field.after($hidden_lte);
                 }
                 $hidden_gte.attr('name', '{{ field_name }}__gte');
-                $hidden_gte.val(moment(vals[0], 'L').format('YYYY-MM-DD'));
+                $hidden_gte.val(moment(vals[0], 'L').locale('en').format('YYYY-MM-DD'));
                 $hidden_lte.attr('name', '{{ field_name }}__lte');
-                $hidden_lte.val(moment(vals[1], 'L').format('YYYY-MM-DD'));
+                $hidden_lte.val(moment(vals[1], 'L').locale('en').format('YYYY-MM-DD'));
                 $field.addClass('active');
                 return;
             }

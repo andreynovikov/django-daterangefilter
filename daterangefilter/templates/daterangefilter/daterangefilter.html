@@ -35,8 +35,8 @@
             $drp_input.on('apply.daterangepicker', function(ev, picker) {
                 $(this).val(picker.startDate.format('L') + ' - ' + picker.endDate.format('L'));
                 window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                  '&{{ field_name }}__gte=' + picker.startDate.format('YYYY-MM-DD') +
-                                  '&{{ field_name }}__lte=' + picker.endDate.format('YYYY-MM-DD')
+                                  '&{{ field_name }}__gte=' + picker.startDate.clone().locale('en').format('YYYY-MM-DD') +
+                                  '&{{ field_name }}__lte=' + picker.endDate.clone().locale('en').format('YYYY-MM-DD')
             });
             $drp_input.on('cancel.daterangepicker', function(ev, picker) {
                 $(this).val('');
@@ -48,8 +48,8 @@
                     var vals = range.split(' - ');
                     if (vals.length == 2) {
                         window.location = window.location.pathname + '{{ choices.0.query_string|safe }}' +
-                                          '&{{ field_name }}__gte=' + moment(vals[0], 'L').format('YYYY-MM-DD') +
-                                          '&{{ field_name }}__lte=' + moment(vals[1], 'L').format('YYYY-MM-DD')
+                                          '&{{ field_name }}__gte=' + moment(vals[0], 'L').locale('en').format('YYYY-MM-DD') +
+                                          '&{{ field_name }}__lte=' + moment(vals[1], 'L').locale('en').format('YYYY-MM-DD')
                     }
                 } else {
                     window.location = window.location.pathname + '{{ choices.0.query_string|safe }}'
